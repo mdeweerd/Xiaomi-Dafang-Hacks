@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck shell=busybox
 
 #######################################################
 # Accepts either presets or step coordinates		  #

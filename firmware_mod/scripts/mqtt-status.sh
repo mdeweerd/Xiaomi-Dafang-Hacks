@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck shell=busybox
 . /system/sdcard/config/mqtt.conf
 . /system/sdcard/scripts/common_functions.sh
 

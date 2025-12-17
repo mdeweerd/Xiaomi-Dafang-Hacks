@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck shell=busybox
 # Source your custom motion configurations
 . /system/sdcard/config/motion.conf
 . /system/sdcard/scripts/common_functions.sh
@@ -19,6 +20,7 @@ send_snapshot() {
 
 		if [ "$publish_mqtt_message" = true ] ; then
 			debug_msg "Send MQTT message"
+                        # shellcheck disable=2086
 			/system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "$TOPIC"/motion $MOSQUITTOOPTS $MOSQUITTOPUBOPTS -m "ON"
 		fi
 
@@ -26,6 +28,7 @@ send_snapshot() {
 			debug_msg "Send MQTT snapshot"
 			/system/sdcard/bin/jpegtran -scale 1/2 "$snapshot_tempfile" > "$snapshot_tempfile-s"
 			/system/sdcard/bin/jpegoptim -m 70 "$snapshot_tempfile-s"
+                        # shellcheck disable=2086
 			/system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "$TOPIC"/motion/snapshot/image $MOSQUITTOOPTS $MOSQUITTOPUBOPTS -f "$snapshot_tempfile-s"
 			rm "$snapshot_tempfile-s"
 		fi
@@ -107,7 +110,7 @@ send_snapshot() {
 
 		# Limit the number of snapshots
 		if [ "$(ls "$save_snapshot_dir" | wc -l)" -ge "$max_snapshot_days" ]; then
-			rm -rf "$save_snapshot_dir/$(ls -ltr "$save_snapshot_dir" | awk 'NR==2{print $9}')"
+			rm -rf "${save_snapshot_dir}/$(ls -ltr "$save_snapshot_dir" | awk 'NR==2{print $9}')"
 		fi
 
 		chmod "$save_files_attr" "$snapshot_tempfile"
@@ -156,11 +159,11 @@ record_video () {
 		debug_msg "Begin recording to $video_tempfile for $video_duration seconds"
 
 		if [ "$video_use_rtsp" = true ]; then
-			output_buffer_size="$((($BITRATE*100)+150000))"
+			output_buffer_size="$(((BITRATE*100)+150000))"
 			if [ -z "$USERNAME" ]; then
-				/system/sdcard/bin/openRTSP -4 -w "$video_rtsp_w" -h "$video_rtsp_h" -f "$video_rtsp_f" -d "$video_duration" -b "$output_buffer_size" rtsp://127.0.0.1:$PORT/unicast > "$video_tempfile"
+				/system/sdcard/bin/openRTSP -4 -w "$video_rtsp_w" -h "$video_rtsp_h" -f "$video_rtsp_f" -d "$video_duration" -b "$output_buffer_size" "rtsp://127.0.0.1:$PORT/unicast" > "$video_tempfile"
 			else
-				/system/sdcard/bin/openRTSP -4 -w "$video_rtsp_w" -h "$video_rtsp_h" -f "$video_rtsp_f" -d "$video_duration" -b "$output_buffer_size" rtsp://$USERNAME:$USERPASSWORD@127.0.0.1:$PORT/unicast > "$video_tempfile"
+				/system/sdcard/bin/openRTSP -4 -w "$video_rtsp_w" -h "$video_rtsp_h" -f "$video_rtsp_f" -d "$video_duration" -b "$output_buffer_size" "rtsp://$USERNAME:$USERPASSWORD@127.0.0.1:$PORT/unicast" > "$video_tempfile"
 			fi
 		else
 			# Use avconv to stitch multiple JPEGs into 1fps video.
@@ -183,7 +186,7 @@ if [ -f /tmp/last-night ]; then
                 if [ "$night_mode_event_delay" -gt 0 ]; then
                         now_ts="$(date +%s)"
                         night_ts="$(/system/sdcard/bin/busybox stat -c %Y /tmp/last-night)"
-                        dt="$(($now_ts-$night_ts))"
+                        dt="$((now_ts-night_ts))"
                         if [ "$dt" -lt "$night_mode_event_delay" ]; then
                                 exit 0
                         fi
@@ -333,6 +336,7 @@ if [ "$publish_mqtt_video" = true ] ; then
 	. /system/sdcard/config/mqtt.conf
 
 	debug_msg "Send MQTT video"
+        # shellcheck disable=2086
 	/system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "$TOPIC"/motion/video $MOSQUITTOOPTS $MOSQUITTOPUBOPTS -f "$video_tempfile"
 
 	) &

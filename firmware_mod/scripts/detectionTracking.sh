@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck shell=busybox
 
 # Script to calculate the camera movement
 # The screen is split as shown below
@@ -31,7 +32,7 @@ backtoOrigin() {
 	fi
 
 	# return to origin for both axis
-	/system/sdcard/scripts/PTZpresets.sh $origin_x_axis $origin_y_axis
+	/system/sdcard/scripts/PTZpresets.sh "$origin_x_axis" "$origin_y_axis"
 }
 
 #################### Start ###
@@ -43,8 +44,8 @@ if [ $# -eq 0 ]; then
 fi
 
 # Display the areas ...
-echo $1 $2
-echo $3 $4
+echo "$1 $2"
+echo "$3 $4"
 
 # Sum all the parameters, that gives the number of region detected
 # Only 2 are supported
@@ -91,18 +92,18 @@ fi
 # Do the actual movement in the background
 (
 	if [ ${UP} == 1 ]; then
-		motor up ${STEPS}
+		motor up "${STEPS}"
 	fi
 
 	if [ ${DOWN} == 1 ]; then
-		motor down ${STEPS}
+		motor down "${STEPS}"
 	fi
 
 	if [ ${RIGHT} == 1 ]; then
-		motor right ${STEPS}
+		motor right "${STEPS}"
 	fi
 
 	if [ ${LEFT} == 1 ]; then
-		motor left $STEPS
+		motor left "$STEPS"
 	fi
 ) &>/dev/null

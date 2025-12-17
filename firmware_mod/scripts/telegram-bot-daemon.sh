@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck shell=busybox
 
  . /system/sdcard/scripts/common_functions.sh
 
@@ -8,8 +9,8 @@ TELEGRAM="/system/sdcard/bin/telegram"
 JQ="/system/sdcard/bin/jq"
 
 . /system/sdcard/config/telegram.conf
-[ -z $apiToken ] && echo "api token not configured yet" && exit 1
-[ -z $userChatId ] && echo "chat id not configured yet" && exit 1
+[ -z "$apiToken" ] && echo "api token not configured yet" && exit 1
+[ -z "$userChatId" ] && echo "chat id not configured yet" && exit 1
 
 status() {
   $TELEGRAM m "Motion detection `motion_detection status`\nNight mode `night_mode status`\nAlert type `get_config /system/sdcard/config/motion.conf telegram_alert_type`"
@@ -63,7 +64,7 @@ imageThenVideoAlerts() {
 
 respond() {
   cmd=$1
-  [ $chatId -lt 0 ] && cmd=${1%%@*}
+  [ "$chatId" -lt 0 ] && cmd=${1%%@*}
   case $cmd in
 	/status) status;;
 	/mem) sendMem;;
@@ -84,7 +85,7 @@ respond() {
 readNext() {
   lastUpdateId=$(cat $LASTUPDATEFILE || echo "0")
   json=$($CURL -s -X GET "https://api.telegram.org/bot$apiToken/getUpdates?offset=$lastUpdateId&limit=1&allowed_updates=message")
-  echo $json
+  echo "$json"
 }
 
 markAsRead() {
@@ -109,7 +110,7 @@ main() {
   chatId=$(echo "$json" | $JQ -r ".result[0].$messageAttr.chat.id // \"\"")
   updateId=$(echo "$json" | $JQ -r '.result[0].update_id // ""')
   if [ "$updateId" != "" ] && [ -z "$chatId" ]; then
-  markAsRead $updateId
+  markAsRead "$updateId"
   return 0
   fi;
 
@@ -123,10 +124,10 @@ main() {
 	# Uncomment to get notified of attempted chat spam
 	# $TELEGRAM m "Received message from unauthorized chat id: $chatId\nUser: $username($firstName)\nMessage: $cmd"
   else
-	respond $cmd
+	respond "$cmd"
   fi;
 
-  markAsRead $updateId
+  markAsRead "$updateId"
 }
 
 while true; do
