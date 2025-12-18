@@ -1,7 +1,9 @@
 #!/bin/sh
 # shellcheck shell=busybox
 
+# shellcheck source=config/mqtt.conf.dist
 . /system/sdcard/config/mqtt.conf
+# shellcheck source=scripts/common_functions.sh
 . /system/sdcard/scripts/common_functions.sh
 
 killall mosquitto_sub 2> /dev/null
@@ -346,7 +348,7 @@ done
 	"${TOPIC}/motors/vertical/set up")
 	  motor up
 	  MOTORSTATE=$(motor status vertical)
-	  if [ "`/system/sdcard/bin/setconf -g f`" -eq 1 ]; then
+	  if [ "$(/system/sdcard/bin/setconf -g f)" -eq 1 ]; then
 		TARGET=$(busybox expr "$MAX_Y" - "$MOTORSTATE")
 	  else
 		TARGET=$MOTORSTATE
@@ -358,7 +360,7 @@ done
 	"${TOPIC}/motors/vertical/set down")
 	  motor down
 	  MOTORSTATE=$(motor status vertical)
-	  if [ `/system/sdcard/bin/setconf -g f` -eq 1 ]; then
+	  if [ "$(/system/sdcard/bin/setconf -g f)" -eq 1 ]; then
 		TARGET=$(busybox expr "$MAX_Y" - "$MOTORSTATE")
 	  else
 		TARGET=$MOTORSTATE
@@ -371,7 +373,7 @@ done
 	  COMMAND=$(echo "$line" | awk '{print $2}')
 	  MOTORSTATE=$(motor status vertical)
 	  if [ -n "$COMMAND" ] && [ "$COMMAND" -eq "$COMMAND" ] 2>/dev/null; then
-		if [ "`/system/sdcard/bin/setconf -g f`" -eq 1 ]; then
+		if [ "$(/system/sdcard/bin/setconf -g f)" -eq 1 ]; then
 		  echo "Changing motor from $COMMAND to $MOTORSTATE"
 		  TARGET=$(busybox expr "$MOTORSTATE" + "$COMMAND" - "$MAX_Y")
 		else
@@ -392,7 +394,7 @@ done
 	"${TOPIC}/motors/horizontal/set left")
 	  motor left
 	  MOTORSTATE=$(motor status horizontal)
-	  if [ "`/system/sdcard/bin/setconf -g f`" -eq 1 ]; then
+	  if [ "$(/system/sdcard/bin/setconf -g f)" -eq 1 ]; then
 		TARGET=$(busybox expr "$MAX_X" - "$MOTORSTATE")
 	  else
 		TARGET=$MOTORSTATE
@@ -404,7 +406,7 @@ done
 	"${TOPIC}/motors/horizontal/set right")
 	  motor right
 	  MOTORSTATE=$(motor status horizontal)
-	  if [ "`/system/sdcard/bin/setconf -g f`" -eq 1 ]; then
+	  if [ "$(/system/sdcard/bin/setconf -g f)" -eq 1 ]; then
 		TARGET=$(busybox expr "$MAX_X" - "$MOTORSTATE")
 	  else
 		TARGET=$MOTORSTATE
@@ -417,7 +419,7 @@ done
 	  COMMAND=$(echo "$line" | awk '{print $2}')
 	  MOTORSTATE=$(motor status horizontal)
 	  if [ -n "$COMMAND" ] && [ "$COMMAND" -eq "$COMMAND" ] 2>/dev/null; then
-		if [ "`/system/sdcard/bin/setconf -g f`" -eq 1 ]; then
+		if [ "$(/system/sdcard/bin/setconf -g f)" -eq 1 ]; then
 		  echo "Changing motor from $COMMAND to $MOTORSTATE"
 		  TARGET=$(busybox expr "$MOTORSTATE" + "$COMMAND" - "$MAX_X")
 		else

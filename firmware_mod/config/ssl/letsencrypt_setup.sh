@@ -17,6 +17,7 @@ if [ ! -f "${CONFIGPATH}/letsencrypt.conf" ]; then
   exit 1
 fi
 
+# shellscript source=config/letsencrypt.conf.dist
 . "$CONFIGPATH/letsencrypt.conf"
 
 if [ ! -d "acme.sh" ]; then

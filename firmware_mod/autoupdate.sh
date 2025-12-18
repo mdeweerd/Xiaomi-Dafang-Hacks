@@ -111,7 +111,7 @@ progress()
 action()
 {
     if [ ${_PRINTONLY} -eq 1 ]; then
-        echo "Action: $@"
+        echo "Action: $*"
     else
         eval "$@"
     fi
@@ -242,8 +242,8 @@ do
 	    shift
             shift
            ;;
-        *|-h |\? | --help)
-            usage $0
+        -h |\? | --help|*)
+            usage "$0"
             exit 1
             ;;
     esac

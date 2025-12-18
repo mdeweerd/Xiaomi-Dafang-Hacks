@@ -73,7 +73,7 @@ rewrite_config(){
   $(grep -v '^[[:space:]]*#' "$1"  | grep -q "$2")
   ret="$?"
   if [ "$ret" == "1" ] ; then
-	  echo "$2=$3" >> $1
+	  echo "$2=$3" >> "$1"
   else
 		sed -i -e "/\\s*#.*/!{/""$cfg_key""=/ s/=.*/=""$new_value""/}" "$cfg_path"
   fi
@@ -709,6 +709,7 @@ night_mode(){
   on)
 	touch /tmp/last-night
 	/system/sdcard/bin/setconf -k n -v 1
+        # shellcheck source=config/autonight.conf.dist
 	. /system/sdcard/config/autonight.conf
 	if [ -z "$ir_led_off" ] || [ "$ir_led_off" = false ]; then
 		ir_led on
@@ -763,6 +764,7 @@ snapshot(){
 
 # Update axis
 update_axis(){
+  # shellcheck source=config/osd.conf
   . /system/sdcard/config/osd.conf > /dev/null 2>/dev/null
   AXIS=$(/system/sdcard/bin/motor -d s | sed '3d' | awk '{printf ("%s ",$0)}' | awk '{print " X="$2,"Y="$4}')
 
@@ -829,11 +831,11 @@ getFonts() {
   echo -n "<option value=\"\""
   if [ -n "${fontName-unset}" ] ; then echo selected; fi
   echo -n ">Default fonts </option>"
-  for i in `/system/sdcard/bin/busybox find /system/sdcard/fonts -name *.ttf`
+  for i in $(/system/sdcard/bin/busybox find /system/sdcard/fonts -name *.ttf)
   do
 	echo -n "<option value=\"$i\" "
 	if [ "$fontName" == "$i" ] ; then echo selected; fi
-	echo -n ">`/system/sdcard/bin/busybox basename $i` </option>"
+	echo -n ">$(/system/sdcard/bin/busybox basename $i) </option>"
   done
 }
 

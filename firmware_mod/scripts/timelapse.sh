@@ -8,6 +8,7 @@ PIDFILE='/run/timelapse.pid'
 TIMELAPSE_CONF='/system/sdcard/config/timelapse.conf'
 
 if [ -f "$TIMELAPSE_CONF" ]; then
+	# shellcheck source=config/timelapse.conf
 	. "$TIMELAPSE_CONF" 2>/dev/null
 fi
 

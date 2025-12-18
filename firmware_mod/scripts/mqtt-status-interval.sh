@@ -1,6 +1,8 @@
 #!/bin/sh
 # shellcheck shell=busybox
+# shellcheck source=config/mqtt.conf.dist
 . /system/sdcard/config/mqtt.conf
+# shellcheck source=scripts/common_functions.sh
 . /system/sdcard/scripts/common_functions.sh
 
 if [ "$STATUSINTERVAL" -lt 30 ]; then
@@ -57,7 +59,7 @@ do
   # shellcheck disable=2086
   /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/timelapse ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -r -m "$(timelapse status)"
   MOTORSTATE=$(motor status vertical)
-  if [ "`/system/sdcard/bin/setconf -g f`" -eq 1 ]; then
+  if [ "$(/system/sdcard/bin/setconf -g f)" -eq 1 ]; then
 	TARGET=$(busybox expr "$MAX_Y" - "$MOTORSTATE")
   else
 	TARGET=$MOTORSTATE
@@ -65,7 +67,7 @@ do
   # shellcheck disable=2086
   /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/motors/vertical ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -r -m  "$TARGET"
   MOTORSTATE=$(motor status horizontal)
-  if [ "`/system/sdcard/bin/setconf -g f`" -eq 1 ]; then
+  if [ "$(/system/sdcard/bin/setconf -g f)" -eq 1 ]; then
 	TARGET=$(busybox expr "$MAX_X" - "$MOTORSTATE")
   else
 	TARGET=$MOTORSTATE

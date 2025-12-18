@@ -15,6 +15,7 @@
 #	|                    |                 |
 #	+--------------------------------------+
 
+# shellscript source=scripts/common_functions.sh
 . /system/sdcard/scripts/common_functions.sh
 
 STEPS=$STEP
@@ -24,8 +25,8 @@ backtoOrigin() {
 
 	if [ -f ${FILECAMERAPOS} ]; then
 		# Get values in saved config file
-		origin_x_axis=`grep "x:" ${FILECAMERAPOS} | sed "s/x: //"`
-		origin_y_axis=`grep "y:" ${FILECAMERAPOS} | sed "s/y: //"`
+		origin_x_axis=$(grep "x:" ${FILECAMERAPOS} | sed "s/x: //")
+		origin_y_axis=$(grep "y:" ${FILECAMERAPOS} | sed "s/y: //")
 	else
 		# No such file exists: create it with the current values
 		/system/sdcard/bin/motor -d s > ${FILECAMERAPOS}

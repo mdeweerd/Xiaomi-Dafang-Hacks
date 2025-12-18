@@ -18,6 +18,7 @@ echo "==================================================" >> $LOGPATH
 killall telnetd
 
 ## Load some common functions:
+# shellcheck source=firmware_mod/scripts/common_functions.sh
 . /system/sdcard/scripts/common_functions.sh
 echo "Loaded common functions" >> $LOGPATH
 

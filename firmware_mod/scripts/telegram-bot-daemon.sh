@@ -13,7 +13,7 @@ JQ="/system/sdcard/bin/jq"
 [ -z "$userChatId" ] && echo "chat id not configured yet" && exit 1
 
 status() {
-  $TELEGRAM m "Motion detection `motion_detection status`\nNight mode `night_mode status`\nAlert type `get_config /system/sdcard/config/motion.conf telegram_alert_type`"
+  $TELEGRAM m "Motion detection $(motion_detection status)\nNight mode $(night_mode status)\nAlert type $(get_config /system/sdcard/config/motion.conf telegram_alert_type)"
 }
 
 sendShot() {

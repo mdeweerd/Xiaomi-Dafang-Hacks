@@ -1,8 +1,11 @@
 #!/bin/sh
 # shellcheck shell=busybox
 # Source your custom motion configurations
+# shellcheck source=config/motion.conf.dist
 . /system/sdcard/config/motion.conf
+# shellcheck source=scripts/common_functions.sh
 . /system/sdcard/scripts/common_functions.sh
+# shellcheck source=config/rtspserver.conf.dist
 . /system/sdcard/config/rtspserver.conf
 
 debug_msg () {

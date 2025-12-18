@@ -2,6 +2,7 @@
 # shellcheck shell=busybox
 
 # Included for configure_static_net_iface and get_wifi_mac
+# shellcheck source=scripts/common_functions.sh
 . /system/sdcard/scripts/common_functions.sh
 
 CONFIGPATH=/system/sdcard/config
