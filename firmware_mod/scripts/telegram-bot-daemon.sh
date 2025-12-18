@@ -8,7 +8,7 @@ CURL="/system/sdcard/bin/curl"
 LASTUPDATEFILE="/tmp/last_update_id"
 TELEGRAM="/system/sdcard/bin/telegram"
 JQ="/system/sdcard/bin/jq"
- 
+
 # shellcheck source=config/telegram.conf.dist
 . /system/sdcard/config/telegram.conf
 [ -z "$apiToken" ] && echo "api token not configured yet" && exit 1
