@@ -15,7 +15,7 @@
 #	|                    |                 |
 #	+--------------------------------------+
 
-# shellscript source=scripts/common_functions.sh
+# shellcheck source=scripts/common_functions.sh
 . /system/sdcard/scripts/common_functions.sh
 
 STEPS=$STEP

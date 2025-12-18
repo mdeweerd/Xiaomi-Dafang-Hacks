@@ -10,6 +10,7 @@ if [ ! -f /system/sdcard/config/sendmail.conf ]; then
   exit 1
 fi
 
+# shellcheck source=config/sendmail.conf.dist
 . /system/sdcard/config/sendmail.conf
 
 if [ -f /tmp/sendPictureMail.lock ]; then

@@ -831,11 +831,11 @@ getFonts() {
   echo -n "<option value=\"\""
   if [ -n "${fontName-unset}" ] ; then echo selected; fi
   echo -n ">Default fonts </option>"
-  for i in $(/system/sdcard/bin/busybox find /system/sdcard/fonts -name *.ttf)
+  for i in $(/system/sdcard/bin/busybox find /system/sdcard/fonts -name '*.ttf')
   do
 	echo -n "<option value=\"$i\" "
 	if [ "$fontName" == "$i" ] ; then echo selected; fi
-	echo -n ">$(/system/sdcard/bin/busybox basename $i) </option>"
+	echo -n ">$(/system/sdcard/bin/busybox basename "$i") </option>"
   done
 }
 
