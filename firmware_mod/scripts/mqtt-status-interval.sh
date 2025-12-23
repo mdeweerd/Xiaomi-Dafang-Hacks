@@ -20,11 +20,11 @@ do
   # shellcheck disable=2086
   /system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/ir_cut ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -r -m "$(ir_cut status)"
 
-  if [ "$LIGHT_SENSOR" == 'hw' ]
+  if [ "$LIGHT_SENSOR" = 'hw' ]
   then
         # shellcheck disable=2086
 	/system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/brightness ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -r -m "$(ldr status)"
-  elif [ "$LIGHT_SENSOR" == 'virtual' ]
+  elif [ "$LIGHT_SENSOR" = 'virtual' ]
   then
         # shellcheck disable=2086
 	/system/sdcard/bin/mosquitto_pub.bin -h "$HOST" -p "$PORT" -u "$USER" -P "$PASS" -t "${TOPIC}"/brightness ${MOSQUITTOPUBOPTS} ${MOSQUITTOOPTS} -r -m "$(exposure status)"
