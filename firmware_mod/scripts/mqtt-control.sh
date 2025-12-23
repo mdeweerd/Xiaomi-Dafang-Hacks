@@ -428,7 +428,7 @@ done
 		fi
 		echo "Moving $TARGET"
 		if [ "$TARGET" -lt 0 ]; then
-		  motor left $(busybox expr "$TARGET" \* -1)
+		  motor left "$(busybox expr "$TARGET" \* -1)"
 		else
 		  motor right "$TARGET"
 		fi
