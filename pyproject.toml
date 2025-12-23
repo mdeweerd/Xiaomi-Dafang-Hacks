@@ -3,7 +3,7 @@
 # `codespell` can be run as a standalone program from the CLI
 # with the appropriate default options.
 
-SKIP=".git,.cache,*.pdf,*/firmware_mod/www/lib"
+skip=".git,.cache,*.pdf,*/firmware_mod/www/lib"
 
 check-hidden = true
 quiet-level=2
@@ -39,5 +39,5 @@ line_length = 80
 # none_representation = ""
 # quote_basic_values = false
 # YAMLFIX_quote_keys_and_basic_values = false
-# uote_representation = false
+# quote_representation = false
 # preserve_quotes = false
