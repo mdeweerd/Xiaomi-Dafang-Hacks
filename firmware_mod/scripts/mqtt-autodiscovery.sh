@@ -27,7 +27,7 @@
   else
    VER="Need upgrade to have VERSION file"
   fi
-  MQTT_COMMAND="/system/sdcard/bin/mosquitto_pub.bin -h \"$HOST\" -p \"$PORT\" -u \"$USER\" -P \"$PASS\" -t"
+  MQTT_COMMAND="/system/sdcard/bin/mosquitto_pub.bin -h $HOST -p $PORT -u $USER -P $PASS -t"
   DEVICE_INFO="\"device\": {\"identifiers\": \"$MAC_SIMPLE\", \"connections\": [[\"mac\", \"$MAC\"]], \"manufacturer\": \"$MANUFACTURER\", \"model\": \"$MODEL\", \"name\": \"$DEVICE_NAME\", \"sw_version\": \"$VER\"}"
 
   # Motion sensor
